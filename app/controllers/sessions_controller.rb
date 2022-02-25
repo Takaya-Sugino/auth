@@ -13,10 +13,12 @@ class SessionsController < ApplicationController
             # check the password
             if BCrypt::Password.new(@user.password) == entered_password
                 # yay! 
+                session["user_id"] = @user.id
                 flash[:notice] = "Welcome!"
                 redirect_to "/companies"
             else 
                 # password doesnt match!
+
                 flash[:notice] = "Password is incorect"
                 redirect_to "/sessions/new"
             end 
@@ -27,4 +29,9 @@ class SessionsController < ApplicationController
         end 
     end
 
+    def destory 
+        session["user_id"] = nil
+        flash[:notice] = "You have been logged out"
+        redirect_to "/sessions/new"
+    end
 end
